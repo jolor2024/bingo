@@ -1,6 +1,6 @@
 import BingoBoard from "./BingoBoard";
 import ComputerBoard from "./ComputerBoard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /*
 type BingoGameProps = {
@@ -50,6 +50,7 @@ function BingoGame() {
         }
 
     }
+
 
     return (
     <>
