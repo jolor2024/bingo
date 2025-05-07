@@ -1,6 +1,6 @@
 import BingoBoard from "./BingoBoard";
 import ComputerBoard from "./ComputerBoard";
-import { useEffect, useState } from "react";
+import {useState } from "react";
 
 /*
 type BingoGameProps = {
