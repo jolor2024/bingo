@@ -93,7 +93,7 @@ function App() {
     )}
 
     {gameStarted && (
-      <BingoGame userId={userId} />
+      <BingoGame userId={userId} difficulty={difficulty} gameSpeed={gameSpeed}/>
     )}
      
     </>
