@@ -6,7 +6,7 @@ function App() {
   const [userId, setUserId] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [gameSpeed, setGameSpeed] = useState('');
-  const [gameStarted, setGameStarted] = useState(false);
+  const [gameStarted, setGameStarted] = useState(true);
 
   function startGame(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

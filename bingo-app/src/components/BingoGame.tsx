@@ -42,17 +42,29 @@ function BingoGame({userId, difficulty, gameSpeed} : BingoGameProps) {
 
     return (
     <>
-        <h1>{latestDrawn}</h1>
-        <h2>{userId}</h2>
-        <h3>{difficulty}</h3>
-        <h4>{gameSpeed}</h4>
+        <div>
+            <button
+                onClick={drawNewNumber}>
+                Dra nytt nummer
+            </button>
+        </div>
+        <h1 className="w-30 h-30 m-2 mx-auto flex items-center justify-center rounded-full bg-green-600 text-white text-4xl font-extrabold shadow-lg">
+            {latestDrawn}
+        </h1>
 
-        <ul>
+        <ul className="flex flex-wrap gap-2 justify-center mb-6">
             {drawnHistory.map((entry, index) => (
-                <li key={index}>{entry}</li>
+                <li
+                key={index}
+                className="w-12 h-12 flex items-center justify-center rounded-full bg-amber-500 text-white font-bold shadow"
+                >
+                {entry}
+                </li>
             ))}
         </ul>
-        <BingoBoard />
+
+        <BingoBoard drawnHistory={drawnHistory} />
+
         <ComputerBoard/>
     </> 
         
