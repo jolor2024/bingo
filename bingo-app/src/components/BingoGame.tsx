@@ -24,25 +24,19 @@ const BINGO_NUMBERS = {
 
 
 function BingoGame({userId, difficulty, gameSpeed} : BingoGameProps) {
-    const [drawnNumbers, setDrawnNumbers] = useState({
-        B: [] as number[],
-        I: [] as number[],
-        N: [] as number[],
-        G: [] as number[],
-        O: [] as number[],
-      });
-
-    const [latestDrawnNumber, setLatestDrawnNumber] = useState(0);
-    const [latestDrawnLetter, setLatestDrawnLetter] = useState("");
+    const [latestDrawn, setLatestDrawn] = useState("");
+    const [drawnHistory, setDrawnHistory] = useState<string[]>([]);
     
     function drawNewNumber() {
         const letters = Object.keys(BINGO_NUMBERS) as (keyof typeof BINGO_NUMBERS)[];
 
         const randomLetter = letters[Math.floor(Math.random() * 5)];
+        const randomNumber = BINGO_NUMBERS[randomLetter][Math.floor(Math.random() * 15)]; 
 
-        const randomNumber = Math.floor(Math.random() * 15);
-        setLatestDrawnNumber(BINGO_NUMBERS[randomLetter][randomNumber]); // for testing
-        setLatestDrawnLetter(randomLetter);
+        const drawn = randomLetter + randomNumber;
+       
+        setLatestDrawn(drawn);
+        setDrawnHistory(prevHistory => [...prevHistory, drawn]);
     }
 
     useEffect(()=>{
@@ -52,8 +46,18 @@ function BingoGame({userId, difficulty, gameSpeed} : BingoGameProps) {
 
     return (
     <>
-        <h1>{latestDrawnLetter}{latestDrawnNumber}</h1>
-        {/* <InfoDrawnNumbers /> */}
+        <h1>{latestDrawn}</h1>
+        <h2>{userId}</h2>
+        <h3>{difficulty}</h3>
+        <h4>{gameSpeed}</h4>
+
+        {/* Display drawn history */}
+        <ul>
+            {drawnHistory.map((entry, index) => (
+                <li key={index}>{entry}</li>
+            ))}
+        </ul>
+        <InfoDrawnNumbers /> 
         <BingoBoard />
         <ComputerBoard/>
     </> 
