@@ -8,7 +8,7 @@ export function generateBingoBoard(): string[][] {
     ];
   
     const board: string[][] = [];
-  
+    /* Lägg till så det inte blir duplicates i samma cell.*/
     for (let row = 0; row < 5; row++) {
       const rowNumbers: string[] = [];
   

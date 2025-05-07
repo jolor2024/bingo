@@ -49,7 +49,6 @@ function BingoGame() {
                 setDrawnHistory(prevHistory => [...prevHistory, drawn]);
         }
 
-        
     }
 
     return (
