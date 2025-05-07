@@ -22,35 +22,55 @@ const BINGO_NUMBERS = {
 function BingoGame({userId, difficulty, gameSpeed} : BingoGameProps) {
     const [latestDrawn, setLatestDrawn] = useState("");
     const [drawnHistory, setDrawnHistory] = useState<string[]>([]);
+    const [isSpinning, setIsSpinning] = useState(false);
     
     function drawNewNumber() {
-        const letters = Object.keys(BINGO_NUMBERS) as (keyof typeof BINGO_NUMBERS)[];
 
-        const randomLetter = letters[Math.floor(Math.random() * 5)];
-        const randomNumber = BINGO_NUMBERS[randomLetter][Math.floor(Math.random() * 15)]; 
+        if (drawnHistory.length >= 75) {
+            console.warn("All BINGO numbers have been drawn.");
+            return;
+        } else {
+            const letters = Object.keys(BINGO_NUMBERS) as (keyof typeof BINGO_NUMBERS)[];
 
-        const drawn = randomLetter + randomNumber;
-       
-        setLatestDrawn(drawn);
-        setDrawnHistory(prevHistory => [...prevHistory, drawn]);
+            let isAlreadyDrawn = true;
+            let drawn = "";
+            while(isAlreadyDrawn) {
+                const randomLetter = letters[Math.floor(Math.random() * 5)];
+                const randomNumber = BINGO_NUMBERS[randomLetter][Math.floor(Math.random() * 15)]; 
+        
+                drawn = randomLetter + randomNumber;
+
+                if(!drawnHistory.includes(drawn)) {
+                        isAlreadyDrawn=false;
+                    }
+                }
+
+                setLatestDrawn(drawn);
+                setDrawnHistory(prevHistory => [...prevHistory, drawn]);
+        }
+
+        
     }
-
-    useEffect(()=>{
-        drawNewNumber();
-    }, []);
-
 
     return (
     <>
         <div>
             <button
                 onClick={drawNewNumber}>
-                Dra nytt nummer
+                Dra nummer
             </button>
         </div>
-        <h1 className="w-30 h-30 m-2 mx-auto flex items-center justify-center rounded-full bg-green-600 text-white text-4xl font-extrabold shadow-lg">
-            {latestDrawn}
+   
+      {/* Spinning h1 */}
+      {latestDrawn && (
+        <h1
+          className={`w-30 h-30 m-2 mx-auto flex items-center justify-center rounded-full bg-green-600 text-white text-4xl font-extrabold shadow-lg ${
+            isSpinning ? "spin" : ""
+          }`}
+        >
+          {latestDrawn}
         </h1>
+      )}
 
         <ul className="flex flex-wrap gap-2 justify-center mb-6">
             {drawnHistory.map((entry, index) => (
