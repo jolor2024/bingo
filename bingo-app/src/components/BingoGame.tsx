@@ -1,13 +1,14 @@
 import BingoBoard from "./BingoBoard";
 import ComputerBoard from "./ComputerBoard";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
+/*
 type BingoGameProps = {
     userId: string;
     difficulty: string;
     gameSpeed: string;
 }
-
+*/
 
 const BINGO_NUMBERS = {
     B: Array.from({ length: 15 }, (_, i) => i + 1),
@@ -19,10 +20,9 @@ const BINGO_NUMBERS = {
 
 
 
-function BingoGame({userId, difficulty, gameSpeed} : BingoGameProps) {
+function BingoGame() {
     const [latestDrawn, setLatestDrawn] = useState("");
     const [drawnHistory, setDrawnHistory] = useState<string[]>([]);
-    const [isSpinning, setIsSpinning] = useState(false);
     
     function drawNewNumber() {
 
@@ -64,8 +64,7 @@ function BingoGame({userId, difficulty, gameSpeed} : BingoGameProps) {
       {/* Spinning h1 */}
       {latestDrawn && (
         <h1
-          className={`w-30 h-30 m-2 mx-auto flex items-center justify-center rounded-full bg-green-600 text-white text-4xl font-extrabold shadow-lg ${
-            isSpinning ? "spin" : ""
+          className={`w-30 h-30 m-2 mx-auto flex items-center justify-center rounded-full bg-green-600 text-white text-4xl font-extrabold shadow-lg
           }`}
         >
           {latestDrawn}
@@ -84,8 +83,12 @@ function BingoGame({userId, difficulty, gameSpeed} : BingoGameProps) {
         </ul>
 
         <BingoBoard drawnHistory={drawnHistory} />
-
-        <ComputerBoard/>
+        <div className="flex flex-col md:flex-row gap-4">
+            {/* Ange antal beroende på difficulty */}
+            <ComputerBoard id={"Computer 1"} drawnHistory={drawnHistory}/>
+            <ComputerBoard id={"Computer 2"} drawnHistory={drawnHistory}/>
+            <ComputerBoard id={"Computer 3"} drawnHistory={drawnHistory}/>
+        </div>
     </> 
         
     )
