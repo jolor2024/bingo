@@ -1,4 +1,3 @@
-import InfoDrawnNumbers from "./DrawnNumbers";
 import BingoBoard from "./BingoBoard";
 import ComputerBoard from "./ComputerBoard";
 import { useEffect, useState } from "react";
@@ -17,9 +16,6 @@ const BINGO_NUMBERS = {
     G: Array.from({ length: 15 }, (_, i) => i + 46),
     O: Array.from({ length: 15 }, (_, i) => i + 61),
   };
-
-
-
 
 
 
@@ -51,13 +47,11 @@ function BingoGame({userId, difficulty, gameSpeed} : BingoGameProps) {
         <h3>{difficulty}</h3>
         <h4>{gameSpeed}</h4>
 
-        {/* Display drawn history */}
         <ul>
             {drawnHistory.map((entry, index) => (
                 <li key={index}>{entry}</li>
             ))}
         </ul>
-        <InfoDrawnNumbers /> 
         <BingoBoard />
         <ComputerBoard/>
     </> 

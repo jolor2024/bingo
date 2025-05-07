@@ -20,7 +20,7 @@ function App() {
     <>
     {!gameStarted && (
       <div>
-      <h1>Välkommen till Tivoli Bingo</h1>
+      <h1 className='text-amber-400 text-2xl'>Välkommen till Tivoli Bingo</h1>
       <form onSubmit={startGame}>
       <h3>Enter User ID</h3>
       <input
