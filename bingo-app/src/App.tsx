@@ -6,7 +6,7 @@ function App() {
   const [userId, setUserId] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [gameSpeed, setGameSpeed] = useState('');
-  const [gameStarted, setGameStarted] = useState(true);
+  const [gameStarted, setGameStarted] = useState(false);
 
   function startGame(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -92,8 +92,7 @@ function App() {
       )}
 
       {gameStarted && (
-        <BingoGame />
-        //<BingoGame userId={userId} difficulty={difficulty} gameSpeed={gameSpeed} />
+        <BingoGame userId={userId} difficulty={difficulty} gameSpeed={gameSpeed} />
       )}
     </>
   );
