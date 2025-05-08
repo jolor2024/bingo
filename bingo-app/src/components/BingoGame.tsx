@@ -18,7 +18,7 @@ const BINGO_NUMBERS = {
   O: Array.from({ length: 15 }, (_, i) => i + 61),
 };
 
-function BingoGame({userId, difficulty, gameSPeed} : BingoGameProps) {
+function BingoGame({userId, difficulty, gameSpeed} : BingoGameProps) {
   const [latestDrawn, setLatestDrawn] = useState("");
   const [drawnHistory, setDrawnHistory] = useState<string[]>([]);
 
@@ -78,25 +78,25 @@ function BingoGame({userId, difficulty, gameSPeed} : BingoGameProps) {
         ))}
       </ul>
 
-      <BingoBoard drawnHistory={drawnHistory} />
+      <BingoBoard drawnHistory={drawnHistory} gameSpeed={gameSpeed}/>
       <div className="flex flex-col md:flex-row gap-4">
         {/* Ange antal beroende på difficulty */}
         {difficulty == "easy"  && (
-             <ComputerBoard id={"Computer 1"} drawnHistory={drawnHistory} />
+             <ComputerBoard id={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
         )}
 
         {difficulty == "medium"  && (
             <>
-                <ComputerBoard id={"Computer 1"} drawnHistory={drawnHistory} />
-                <ComputerBoard id={"Computer 2"} drawnHistory={drawnHistory} />
+                <ComputerBoard id={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+                <ComputerBoard id={"Computer 2"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
             </>
         )}
 
         {difficulty == "hard"  && (
             <>
-                <ComputerBoard id={"Computer 1"} drawnHistory={drawnHistory} />
-                <ComputerBoard id={"Computer 2"} drawnHistory={drawnHistory} />
-                <ComputerBoard id={"Computer 3"} drawnHistory={drawnHistory} />
+                <ComputerBoard id={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+                <ComputerBoard id={"Computer 2"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+                <ComputerBoard id={"Computer 3"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
             </>
         )}
        

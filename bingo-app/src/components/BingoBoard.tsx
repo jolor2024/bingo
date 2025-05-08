@@ -4,10 +4,11 @@ import { generateBingoBoard } from '../utils/generateBoard';
 type Props = {
   drawnHistory: string[]; // List of drawn numbers passed from BingoGame
   computerBoard?: string[][];
+  gameSpeed: string
 };
 
 
-function BingoBoard({ drawnHistory, computerBoard }: Props) {
+function BingoBoard({ drawnHistory, computerBoard, gameSpeed }: Props) {
   const [card, setCard] = useState<string[][]>([]);
   const [hasBingo, setHasBingo] = useState(false);
 
@@ -15,7 +16,7 @@ function BingoBoard({ drawnHistory, computerBoard }: Props) {
     if(computerBoard) {
       setCard(computerBoard);
     } else {
-      const generatedBoard = generateBingoBoard();
+      const generatedBoard = generateBingoBoard(gameSpeed);
       setCard(generatedBoard);
     }
   }, [computerBoard]); 

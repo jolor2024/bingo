@@ -1,4 +1,4 @@
-export function generateBingoBoard(): string[][] {
+export function generateBingoBoard(gameSpeed : string): string[][] {
   const columns = [
     { letter: "B", min: 1, max: 15 },
     { letter: "I", min: 16, max: 30 },
@@ -24,8 +24,16 @@ export function generateBingoBoard(): string[][] {
     }
   });
 
+
+  if(gameSpeed == "standard") {
+    board[2][2] = "FREE"; 
+  } else if(gameSpeed =="quick") {
+    board[2][2] = "FREE"; 
+    board[0][4] = "FREE";
+    board[4][0] = "FREE";  
+  }
   // Set the center space (free space)
-  board[2][2] = "FREE";
+  
 
   return board;
 }

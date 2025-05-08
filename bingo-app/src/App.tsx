@@ -33,6 +33,7 @@ function App() {
                   type="text"
                   value={userId}
                   onChange={(e) => setUserId(e.target.value)}
+                  required
                   className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
                 />
               </div>
@@ -50,6 +51,7 @@ function App() {
                         checked={difficulty === level}
                         onChange={() => setDifficulty(level)}
                         className="accent-amber-500"
+                        required
                       />
                       <label htmlFor={level} className="text-sm text-gray-700 capitalize">{level}</label>
                     </div>
@@ -72,6 +74,7 @@ function App() {
                         value={option.id}
                         checked={gameSpeed === option.id}
                         onChange={() => setGameSpeed(option.id)}
+                        required
                         className="accent-amber-500"
                       />
                       <label htmlFor={option.id} className="text-sm text-gray-700">{option.label}</label>
