@@ -1,10 +1,10 @@
 import { useState, type FormEvent } from 'react';
-import './App.css'; // Tailwind should be imported here
+import './App.css';
 import BingoGame from './components/BingoGame';
 
 function App() {
-  const [userId, setUserId] = useState("");
-  const [difficulty, setDifficulty] = useState("");
+  const [userId, setUserId] = useState('');
+  const [difficulty, setDifficulty] = useState('');
   const [gameSpeed, setGameSpeed] = useState('');
   const [gameStarted, setGameStarted] = useState(false);
 
@@ -15,89 +15,89 @@ function App() {
   }
 
   return (
-    <>
-      {!gameStarted && (
-        <div className="min-h-screen flex items-center justify-center px-4">
-          <div className="w-full max-w-md bg-white p-8 rounded-lg border-1 text-amber-500">
-            <h1 className="text-3xl font-bold text-center text-amber-500 mb-6">
-              Välkommen till Tivoli Bingo
-            </h1>
-            <form onSubmit={startGame} className="space-y-4">
-              <div>
-                <label htmlFor="userId" className="block text-sm font-medium text-gray-700 mb-1">
-                  Enter User ID
-                </label>
-                <input
-                  id="userId"
-                  name="userId"
-                  type="text"
-                  value={userId}
-                  onChange={(e) => setUserId(e.target.value)}
-                  required
-                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
-                />
-              </div>
+    <div className="min-h-screen bg-gradient-to-br from-pink-200 via-yellow-100 to-teal-200 flex items-center justify-center p-4">
+      {!gameStarted ? (
+        <div className="max-w-[1000px] mx-auto bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-2xl border border-pink-300">
+          <h1 className="text-4xl font-extrabold text-center text-pink-600 mb-6 drop-shadow-md">
+            🎉 Tivoli Bingo 🎉
+          </h1>
+          <p className="text-center text-sm text-gray-600 mb-6">Enter your details to start!</p>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Difficulty</label>
-                <div className="space-y-1">
-                  {['easy', 'medium', 'hard'].map((level) => (
-                    <div key={level} className="flex items-center space-x-2">
-                      <input
-                        type="radio"
-                        id={level}
-                        name="difficulty"
-                        value={level}
-                        checked={difficulty === level}
-                        onChange={() => setDifficulty(level)}
-                        className="accent-amber-500"
-                        required
-                      />
-                      <label htmlFor={level} className="text-sm text-gray-700 capitalize">{level}</label>
+          <form onSubmit={startGame} className="space-y-6">
+            <div>
+              <label htmlFor="userId" className="block text-sm font-medium text-gray-700 mb-1">
+                User ID
+              </label>
+              <input
+                id="userId"
+                name="userId"
+                type="text"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Choose Difficulty</label>
+              <div className="flex justify-between gap-4">
+                {['easy', 'medium', 'hard'].map((level) => (
+                  <label key={level} className="flex-1">
+                    <input
+                      type="radio"
+                      name="difficulty"
+                      value={level}
+                      checked={difficulty === level}
+                      onChange={() => setDifficulty(level)}
+                      className="hidden peer"
+                      required
+                    />
+                    <div className="peer-checked:bg-pink-200 peer-checked:text-pink-900 text-center px-4 py-2 rounded-full border border-gray-300 cursor-pointer transition-all hover:bg-pink-100">
+                      {level.charAt(0).toUpperCase() + level.slice(1)}
                     </div>
-                  ))}
-                </div>
+                  </label>
+                ))}
               </div>
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Game Speed</label>
-                <div className="space-y-1">
-                  {[
-                    { id: 'standard', label: 'Standard' },
-                    { id: 'quick', label: 'Quick Game' },
-                  ].map((option) => (
-                    <div key={option.id} className="flex items-center space-x-2">
-                      <input
-                        type="radio"
-                        id={option.id}
-                        name="gamespeed"
-                        value={option.id}
-                        checked={gameSpeed === option.id}
-                        onChange={() => setGameSpeed(option.id)}
-                        required
-                        className="accent-amber-500"
-                      />
-                      <label htmlFor={option.id} className="text-sm text-gray-700">{option.label}</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Game Speed</label>
+              <div className="flex justify-between gap-4">
+                {[
+                  { id: 'standard', label: 'Standard' },
+                  { id: 'quick', label: 'Quick Game' },
+                ].map((option) => (
+                  <label key={option.id} className="flex-1">
+                    <input
+                      type="radio"
+                      name="gamespeed"
+                      value={option.id}
+                      checked={gameSpeed === option.id}
+                      onChange={() => setGameSpeed(option.id)}
+                      className="hidden peer"
+                      required
+                    />
+                    <div className="peer-checked:bg-teal-200 peer-checked:text-teal-900 text-center px-4 py-2 rounded-full border border-gray-300 cursor-pointer transition-all hover:bg-teal-100">
+                      {option.label}
                     </div>
-                  ))}
-                </div>
+                  </label>
+                ))}
               </div>
+            </div>
 
-              <button
-                type="submit"
-                className="w-full !bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded mt-4 transition-colors"
-              >
-                Start Bingo
-              </button>
-            </form>
-          </div>
+            <button
+              type="submit"
+              className="w-full !bg-pink-500 !hover:bg-pink-600 !text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-200"
+            >
+              🚀 Start Bingo!
+            </button>
+          </form>
         </div>
-      )}
-
-      {gameStarted && (
+      ) : (
         <BingoGame userId={userId} difficulty={difficulty} gameSpeed={gameSpeed} />
       )}
-    </>
+    </div>
   );
 }
 
