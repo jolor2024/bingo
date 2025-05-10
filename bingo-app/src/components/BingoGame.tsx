@@ -2,13 +2,11 @@ import BingoBoard from "./BingoBoard";
 import ComputerBoard from "./ComputerBoard";
 import { useState } from "react";
 
-
 type BingoGameProps = {
-    userId: string;
-    difficulty: string;
-    gameSpeed: string;
-}
-
+  userId: string;
+  difficulty: string;
+  gameSpeed: string;
+};
 
 const BINGO_NUMBERS = {
   B: Array.from({ length: 15 }, (_, i) => i + 1),
@@ -18,7 +16,7 @@ const BINGO_NUMBERS = {
   O: Array.from({ length: 15 }, (_, i) => i + 61),
 };
 
-function BingoGame({userId, difficulty, gameSpeed} : BingoGameProps) {
+function BingoGame({ userId, difficulty, gameSpeed }: BingoGameProps) {
   const [latestDrawn, setLatestDrawn] = useState("");
   const [drawnHistory, setDrawnHistory] = useState<string[]>([]);
 
@@ -26,83 +24,100 @@ function BingoGame({userId, difficulty, gameSpeed} : BingoGameProps) {
     if (drawnHistory.length >= 75) {
       console.warn("All BINGO numbers have been drawn.");
       return;
-    } else {
-      const letters = Object.keys(
-        BINGO_NUMBERS
-      ) as (keyof typeof BINGO_NUMBERS)[];
-
-      let isAlreadyDrawn = true;
-      let drawn = "";
-      while (isAlreadyDrawn) {
-        const randomLetter = letters[Math.floor(Math.random() * 5)];
-        const randomNumber =
-          BINGO_NUMBERS[randomLetter][Math.floor(Math.random() * 15)];
-
-        drawn = randomLetter + randomNumber;
-
-        if (!drawnHistory.includes(drawn)) {
-          isAlreadyDrawn = false;
-        }
-      }
-
-      setLatestDrawn(drawn);
-      setDrawnHistory((prevHistory) => [...prevHistory, drawn]);
     }
+
+    const letters = Object.keys(BINGO_NUMBERS) as (keyof typeof BINGO_NUMBERS)[];
+    let isAlreadyDrawn = true;
+    let drawn = "";
+
+    while (isAlreadyDrawn) {
+      const randomLetter = letters[Math.floor(Math.random() * 5)];
+      const randomNumber = BINGO_NUMBERS[randomLetter][Math.floor(Math.random() * 15)];
+      drawn = randomLetter + randomNumber;
+
+      if (!drawnHistory.includes(drawn)) {
+        isAlreadyDrawn = false;
+      }
+    }
+
+    setLatestDrawn(drawn);
+    setDrawnHistory((prevHistory) => [...prevHistory, drawn]);
   }
 
   return (
-    <>
-      <h1>User id: {userId}</h1>
-      <div>
-        <button onClick={drawNewNumber}>Dra nummer</button>
-      </div>
+    <div className="w-full p-6">
+      {/* Header */}
+      <div className="text-center mb-4">
 
-      {/* Spinning h1 */}
-      {latestDrawn && (
-        <h1
-          className={`w-30 h-30 m-2 mx-auto flex items-center justify-center rounded-full bg-green-600 text-white text-4xl font-extrabold shadow-lg
-          }`}
-        >
-          {latestDrawn}
-        </h1>
-      )}
+      <p className="text-sm text-gray-600">Difficulty: <span className="capitalize">{difficulty}</span> | Speed: {gameSpeed}</p>
 
-      <ul className="overflow-x-auto overflow-y-hidden max-w-[1000px] mx-auto flex flex-nowrap gap-2 mb-6">
+              {/* Drawn history */}
+      <ul className="overflow-x-auto overflow-y-hidden max-w-6xl mx-auto flex flex-nowrap gap-2 mb-8 px-4">
         {drawnHistory.map((entry, index) => (
           <li
             key={index}
-            className="w-12 h-12 flex items-center justify-center rounded-full bg-amber-500 text-white font-bold shadow shrink-0"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-amber-400 text-white font-bold shadow shrink-0"
           >
             {entry}
           </li>
         ))}
       </ul>
 
-      <BingoBoard drawnHistory={drawnHistory} gameSpeed={gameSpeed}/>
-      <div className="flex flex-col md:flex-row gap-4">
-        {/* Ange antal beroende på difficulty */}
-        {difficulty == "easy"  && (
-             <ComputerBoard id={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
-        )}
-
-        {difficulty == "medium"  && (
-            <>
-                <ComputerBoard id={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
-                <ComputerBoard id={"Computer 2"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
-            </>
-        )}
-
-        {difficulty == "hard"  && (
-            <>
-                <ComputerBoard id={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
-                <ComputerBoard id={"Computer 2"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
-                <ComputerBoard id={"Computer 3"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
-            </>
-        )}
        
-
       </div>
-    </>
+
+      {/* Draw number */}
+      <div className="flex justify-center my-6">
+        <button
+          onClick={drawNewNumber}
+          className="!bg-pink-500 !hover:bg-pink-600 text-white font-bold px-6 py-2 rounded-full shadow transition"
+        >
+          🎲 Draw Number
+        </button>
+      </div>
+
+      {/* Display latest drawn */}
+      {latestDrawn && (
+        <div className="flex justify-center mb-4">
+          <div className="w-20 h-20 my-4 flex items-center justify-center rounded-full bg-green-500 text-white !text-3xl font-extrabold shadow-lg animate-bounce">
+            {latestDrawn}
+          </div>
+        </div>
+      )}
+
+
+
+     {/* Boards layout */}
+    <div className="w-full max-w-7xl mx-auto px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {/* Player board */}
+          <BingoBoard user={userId} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+
+
+        {/* Computer boards */}
+        {difficulty === "easy" && (
+            <ComputerBoard user="Computer 1" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+
+        )}
+
+        {difficulty === "medium" && (
+          <>
+              <ComputerBoard user="Computer 2" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+              <ComputerBoard user="Computer 3" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+          </>
+        )}
+
+        {difficulty === "hard" && (
+          <>
+              <ComputerBoard user="Computer 1" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+              <ComputerBoard user="Computer 2" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+              <ComputerBoard user="Computer 3" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+          </>
+        )}
+      </div>
+    </div>
+
+    </div>
   );
 }
 

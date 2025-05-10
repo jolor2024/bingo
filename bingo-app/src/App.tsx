@@ -95,7 +95,9 @@ function App() {
           </form>
         </div>
       ) : (
+        <div className="w-full flex flex-col items-center justify-center p-4">
         <BingoGame userId={userId} difficulty={difficulty} gameSpeed={gameSpeed} />
+        </div>
       )}
     </div>
   );
