@@ -1,6 +1,6 @@
 import BingoBoard from "./BingoBoard";
 import ComputerBoard from "./ComputerBoard";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type BingoGameProps = {
   userId: string;
@@ -19,6 +19,18 @@ const BINGO_NUMBERS = {
 function BingoGame({ userId, difficulty, gameSpeed }: BingoGameProps) {
   const [latestDrawn, setLatestDrawn] = useState("");
   const [drawnHistory, setDrawnHistory] = useState<string[]>([]);
+
+  const [playerWon, setPlayerWon] = useState(false);
+  const [computerWon, setComputerWon] = useState(false);
+  const handlePlayerWon = useCallback((user: string) => {
+    
+    if(user == userId) {
+      setPlayerWon(true);
+    } else {
+      setComputerWon(true);
+    }
+
+  }, [])
 
   function drawNewNumber() {
     if (drawnHistory.length >= 75) {
@@ -46,6 +58,14 @@ function BingoGame({ userId, difficulty, gameSpeed }: BingoGameProps) {
 
   return (
     <div className="w-full p-6">
+
+      {playerWon && (
+        <h1>You won!</h1>
+      )}
+
+      {computerWon && (
+        <h1>You lost!</h1>
+      )}
       {/* Header */}
       <div className="text-center mb-4">
 
@@ -91,27 +111,27 @@ function BingoGame({ userId, difficulty, gameSpeed }: BingoGameProps) {
     <div className="w-full max-w-7xl mx-auto px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Player board */}
-          <BingoBoard user={userId} drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+          <BingoBoard user={userId} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
 
 
         {/* Computer boards */}
         {difficulty === "easy" && (
-            <ComputerBoard user="Computer 1" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+            <BingoBoard user={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
 
         )}
 
         {difficulty === "medium" && (
           <>
-              <ComputerBoard user="Computer 2" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
-              <ComputerBoard user="Computer 3" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+              <BingoBoard user={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
+              <BingoBoard user={"Computer 2"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
           </>
         )}
 
         {difficulty === "hard" && (
           <>
-              <ComputerBoard user="Computer 1" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
-              <ComputerBoard user="Computer 2" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
-              <ComputerBoard user="Computer 3" drawnHistory={drawnHistory} gameSpeed={gameSpeed} />
+              <BingoBoard user={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
+              <BingoBoard user={"Computer 2"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
+              <BingoBoard user={"Computer 3"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
           </>
         )}
       </div>

@@ -5,11 +5,13 @@ type Props = {
   user: string;
   drawnHistory: string[]; // List of drawn numbers passed from BingoGame
   computerBoard?: string[][];
-  gameSpeed: string
+  gameSpeed: string;
+  onBingo?: (user: string) => void;
+  playerWon?: boolean;
 };
 
 
-function BingoBoard({ user, drawnHistory, computerBoard, gameSpeed }: Props) {
+function BingoBoard({ user, drawnHistory, computerBoard, gameSpeed, onBingo, }: Props) {
   const [card, setCard] = useState<string[][]>([]);
   const [hasBingo, setHasBingo] = useState(false);
 
@@ -65,6 +67,12 @@ function BingoBoard({ user, drawnHistory, computerBoard, gameSpeed }: Props) {
       setHasBingo(true);
     } 
   }, [card, drawnHistory, hasBingo]);
+
+  useEffect(() => {
+  if (hasBingo && onBingo) {
+    onBingo(user);
+  }
+}, [hasBingo, onBingo, user]);
 
   return (
     <div className="w-full flex flex-col items-center bg-white p-4 rounded-3xl shadow-2xl border border-pink-300">
