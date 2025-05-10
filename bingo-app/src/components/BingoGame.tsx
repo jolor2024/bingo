@@ -1,5 +1,5 @@
 import BingoBoard from "./BingoBoard";
-import ComputerBoard from "./ComputerBoard";
+import GameOverMenu from "./GameOver";
 import { useCallback, useState } from "react";
 
 type BingoGameProps = {
@@ -23,7 +23,6 @@ function BingoGame({ userId, difficulty, gameSpeed }: BingoGameProps) {
   const [playerWon, setPlayerWon] = useState(false);
   const [computerWon, setComputerWon] = useState(false);
   const handlePlayerWon = useCallback((user: string) => {
-    
     if(user == userId) {
       setPlayerWon(true);
     } else {
@@ -56,89 +55,90 @@ function BingoGame({ userId, difficulty, gameSpeed }: BingoGameProps) {
     setDrawnHistory((prevHistory) => [...prevHistory, drawn]);
   }
 
-  return (
-    <div className="w-full p-6">
+return (
+  <>
+    {(playerWon || computerWon) ? (
+      <GameOverMenu didPlayerWin={playerWon} />
+    ) : (
+      <div className="w-full p-6">
+        {/* Header */}
+        <div className="text-center mb-4">
+          <p className="text-sm text-gray-600">
+            Difficulty: <span className="capitalize">{difficulty}</span> | Speed: {gameSpeed}
+          </p>
 
-      {playerWon && (
-        <h1>You won!</h1>
-      )}
+          {/* Drawn history */}
+          <ul className="overflow-x-auto overflow-y-hidden max-w-6xl mx-auto flex flex-nowrap gap-2 mb-8 px-4">
+            {drawnHistory.map((entry, index) => (
+              <li
+                key={index}
+                className="w-12 h-12 flex items-center justify-center rounded-full bg-amber-400 text-white font-bold shadow shrink-0"
+              >
+                {entry}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      {computerWon && (
-        <h1>You lost!</h1>
-      )}
-      {/* Header */}
-      <div className="text-center mb-4">
-
-      <p className="text-sm text-gray-600">Difficulty: <span className="capitalize">{difficulty}</span> | Speed: {gameSpeed}</p>
-
-              {/* Drawn history */}
-      <ul className="overflow-x-auto overflow-y-hidden max-w-6xl mx-auto flex flex-nowrap gap-2 mb-8 px-4">
-        {drawnHistory.map((entry, index) => (
-          <li
-            key={index}
-            className="w-12 h-12 flex items-center justify-center rounded-full bg-amber-400 text-white font-bold shadow shrink-0"
+        {/* Draw number */}
+        <div className="flex justify-center my-6">
+          <button
+            onClick={drawNewNumber}
+            className="!bg-pink-500 !hover:bg-pink-600 text-white font-bold px-6 py-2 rounded-full shadow transition"
           >
-            {entry}
-          </li>
-        ))}
-      </ul>
+            🎲 Draw Number
+          </button>
+        </div>
 
-       
-      </div>
+        {/* Display latest drawn */}
+        {latestDrawn && (
+          <div className="flex justify-center mb-4">
+            <div className="w-20 h-20 my-4 flex items-center justify-center rounded-full bg-green-500 text-white !text-3xl font-extrabold shadow-lg animate-bounce">
+              {latestDrawn}
+            </div>
+          </div>
+        )}
 
-      {/* Draw number */}
-      <div className="flex justify-center my-6">
-        <button
-          onClick={drawNewNumber}
-          className="!bg-pink-500 !hover:bg-pink-600 text-white font-bold px-6 py-2 rounded-full shadow transition"
-        >
-          🎲 Draw Number
-        </button>
-      </div>
+        {/* Boards layout */}
+        <div className="w-full max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <BingoBoard
+              user={userId}
+              drawnHistory={drawnHistory}
+              gameSpeed={gameSpeed}
+              onBingo={handlePlayerWon}
+            />
 
-      {/* Display latest drawn */}
-      {latestDrawn && (
-        <div className="flex justify-center mb-4">
-          <div className="w-20 h-20 my-4 flex items-center justify-center rounded-full bg-green-500 text-white !text-3xl font-extrabold shadow-lg animate-bounce">
-            {latestDrawn}
+            {difficulty === "easy" && (
+              <BingoBoard
+                user="Computer 1"
+                drawnHistory={drawnHistory}
+                gameSpeed={gameSpeed}
+                onBingo={handlePlayerWon}
+              />
+            )}
+
+            {difficulty === "medium" && (
+              <>
+                <BingoBoard user="Computer 1" drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
+                <BingoBoard user="Computer 2" drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
+              </>
+            )}
+
+            {difficulty === "hard" && (
+              <>
+                <BingoBoard user="Computer 1" drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
+                <BingoBoard user="Computer 2" drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
+                <BingoBoard user="Computer 3" drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
+              </>
+            )}
           </div>
         </div>
-      )}
-
-
-
-     {/* Boards layout */}
-    <div className="w-full max-w-7xl mx-auto px-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {/* Player board */}
-          <BingoBoard user={userId} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
-
-
-        {/* Computer boards */}
-        {difficulty === "easy" && (
-            <BingoBoard user={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
-
-        )}
-
-        {difficulty === "medium" && (
-          <>
-              <BingoBoard user={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
-              <BingoBoard user={"Computer 2"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
-          </>
-        )}
-
-        {difficulty === "hard" && (
-          <>
-              <BingoBoard user={"Computer 1"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
-              <BingoBoard user={"Computer 2"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
-              <BingoBoard user={"Computer 3"} drawnHistory={drawnHistory} gameSpeed={gameSpeed} onBingo={handlePlayerWon} />
-          </>
-        )}
       </div>
-    </div>
+    )}
+  </>
+);
 
-    </div>
-  );
 }
 
 export default BingoGame;
