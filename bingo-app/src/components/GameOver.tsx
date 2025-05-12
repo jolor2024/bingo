@@ -3,35 +3,65 @@ import { useEffect } from "react";
 type Props = {
   didPlayerWin: boolean;
   userId: string;
-  amount: number;
+  payAmount: number;
+  stakeAmount: number;
 };
 
-export default function GameOverMenu({ didPlayerWin, userId, amount }: Props) {
+export default function GameOverMenu({ didPlayerWin, userId, payAmount, stakeAmount }: Props) {
 
-  useEffect(() => {
-    async function payout() {
-      const url = "https://yrgobanken.vip/api/transactions";
-      if(didPlayerWin) {
-        try {
-          await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-             body: JSON.stringify({
-              seller: "centralbank",
-              buyer: userId,
-              amount: amount,
-              stamp: "platinum snake",
-            }),
-          })
-        } catch(err) {
-          console.log("Error fetching api... ")
+ useEffect(() => {
+  async function payout() {
+    const url = "https://yrgobanken.vip/api/transactions";
+
+    if (didPlayerWin) {
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            seller: "centralbank",
+            buyer: userId,
+            amount: payAmount,
+            stamp: "platinum snake",
+          }),
+        });
+
+        if (res.ok) {
+          console.log("Payout successful!");
+        } else {
+          console.error(`Payout failed: ${res.status}`);
         }
-      } else {
-        console.log("Player lost")
+      } catch (err) {
+        console.error(" TransactionFetch error:", err);
+      }
+    } else {
+      console.log("Stake payout...")
+       try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            seller: userId,
+            buyer: "centralbank",
+            amount: stakeAmount,
+            stamp: "platinum snake",
+          }),
+        });
+
+        if (res.ok) {
+          console.log("Stake payout successful!");
+        } else {
+          console.error(`Stake Payout failed: ${res.status}`);
+        }
+      } catch (err) {
+        console.error("Transaction Fetch error:", err);
       }
     }
-    payout();
-  }, [didPlayerWin, userId, amount])
+  }
+
+  payout();
+}, [didPlayerWin, userId, payAmount, stakeAmount]);
+
 
 
   return (
