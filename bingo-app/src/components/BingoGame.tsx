@@ -58,7 +58,7 @@ function BingoGame({ userId, difficulty, gameSpeed }: BingoGameProps) {
 return (
   <>
     {(playerWon || computerWon) ? (
-      <GameOverMenu didPlayerWin={playerWon} />
+      <GameOverMenu didPlayerWin={playerWon} userId={userId} amount={10}/>
     ) : (
       <div className="w-full p-6">
         {/* Header */}
