@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { generateBingoBoard } from '../utils/generateBoard';
 import BingoBoard from './BingoBoard';
 
+type GameSpeed = "standard" | "quick";
+
 type Props = {
     user: string;
     drawnHistory: string[]; // List of drawn numbers passed from BingoGame
-    gameSpeed: string;
+    gameSpeed: GameSpeed;
 };
 
 function ComputerBoard({ user, drawnHistory, gameSpeed }: Props) {
@@ -16,9 +18,7 @@ function ComputerBoard({ user, drawnHistory, gameSpeed }: Props) {
   }, []); 
 
   return (
-    <>
       <BingoBoard  user={user} drawnHistory={drawnHistory} computerBoard={board} gameSpeed={gameSpeed}/>
-    </>
   );
 }
 

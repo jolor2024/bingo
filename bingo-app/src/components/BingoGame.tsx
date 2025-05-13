@@ -2,13 +2,24 @@ import BingoBoard from "./BingoBoard";
 import GameOverMenu from "./GameOver";
 import { useCallback, useState } from "react";
 
+type Difficulty = "easy" | "medium" | "hard";
+type GameSpeed = "standard" | "quick";
 type BingoGameProps = {
   userId: string;
-  difficulty: string;
-  gameSpeed: string;
+  difficulty: Difficulty;
+  gameSpeed: GameSpeed;
 };
 
-const BINGO_NUMBERS = {
+
+type BingoNumbers = {
+  B: number[];
+  I: number[];
+  N: number[];
+  G: number[];
+  O: number[];
+}
+
+const BINGO_NUMBERS : BingoNumbers = {
   B: Array.from({ length: 15 }, (_, i) => i + 1),
   I: Array.from({ length: 15 }, (_, i) => i + 16),
   N: Array.from({ length: 15 }, (_, i) => i + 31),
@@ -17,19 +28,19 @@ const BINGO_NUMBERS = {
 };
 
 function BingoGame({ userId, difficulty, gameSpeed }: BingoGameProps) {
-  const [latestDrawn, setLatestDrawn] = useState("");
+  const [latestDrawn, setLatestDrawn] = useState<string>("");
   const [drawnHistory, setDrawnHistory] = useState<string[]>([]);
 
-  const [playerWon, setPlayerWon] = useState(false);
-  const [computerWon, setComputerWon] = useState(false);
-  const handlePlayerWon = useCallback((user: string) => {
+  const [playerWon, setPlayerWon] = useState<boolean>(false);
+  const [computerWon, setComputerWon] = useState<boolean>(false);
+
+  const handlePlayerWon = useCallback((user: string): void => {
     if(user == userId) {
       setPlayerWon(true);
     } else {
       setComputerWon(true);
     }
-
-  }, [])
+  }, [userId])
 
   function drawNewNumber() {
     if (drawnHistory.length >= 75) {

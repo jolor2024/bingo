@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { generateBingoBoard } from '../utils/generateBoard';
 
+type GameSpeed = "standard" | "quick";
+
 type Props = {
   user: string;
   drawnHistory: string[]; // List of drawn numbers passed from BingoGame
   computerBoard?: string[][];
-  gameSpeed: string;
+  gameSpeed: GameSpeed;
   onBingo?: (user: string) => void;
   playerWon?: boolean;
 };

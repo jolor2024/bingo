@@ -2,11 +2,23 @@ import { useState, type FormEvent } from 'react';
 import './App.css';
 import BingoGame from './components/BingoGame';
 
+
+type Difficulty = "easy" | "medium" | "hard";
+type GameSpeed = "standard" | "quick";
+
+
+
 function App() {
   const [userId, setUserId] = useState('');
-  const [difficulty, setDifficulty] = useState('');
-  const [gameSpeed, setGameSpeed] = useState('');
+  const [difficulty, setDifficulty] = useState<Difficulty>('easy');
+  const [gameSpeed, setGameSpeed] = useState<GameSpeed>('standard');
   const [gameStarted, setGameStarted] = useState(false);
+
+  const difficultyLevels: readonly Difficulty[] = ['easy', 'medium', 'hard'];
+  const gameSpeedOptions: readonly { id: GameSpeed; label: string }[] = [
+  { id: 'standard', label: 'Standard' },
+  { id: 'quick', label: 'Quick Game' },
+];
 
   function startGame(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,7 +54,7 @@ function App() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Choose Difficulty</label>
               <div className="flex justify-between gap-4">
-                {['easy', 'medium', 'hard'].map((level) => (
+                {difficultyLevels.map((level) => (
                   <label key={level} className="flex-1">
                     <input
                       type="radio"
@@ -64,10 +76,7 @@ function App() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Game Speed</label>
               <div className="flex justify-between gap-4">
-                {[
-                  { id: 'standard', label: 'Standard' },
-                  { id: 'quick', label: 'Quick Game' },
-                ].map((option) => (
+                {gameSpeedOptions.map((option) => (
                   <label key={option.id} className="flex-1">
                     <input
                       type="radio"
