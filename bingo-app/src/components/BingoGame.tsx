@@ -8,6 +8,7 @@ type BingoGameProps = {
   userId: string;
   difficulty: Difficulty;
   gameSpeed: GameSpeed;
+  stake:number;
 };
 
 
@@ -27,7 +28,7 @@ const BINGO_NUMBERS : BingoNumbers = {
   O: Array.from({ length: 15 }, (_, i) => i + 61),
 };
 
-function BingoGame({ userId, difficulty, gameSpeed }: BingoGameProps) {
+function BingoGame({ userId, difficulty, gameSpeed, stake }: BingoGameProps) {
   const [latestDrawn, setLatestDrawn] = useState<string>("");
   const [drawnHistory, setDrawnHistory] = useState<string[]>([]);
 
@@ -69,7 +70,7 @@ function BingoGame({ userId, difficulty, gameSpeed }: BingoGameProps) {
 return (
   <>
     {(playerWon || computerWon) ? (
-      <GameOverMenu didPlayerWin={playerWon} userId={userId} payAmount={10} stakeAmount={5}/>
+      <GameOverMenu didPlayerWin={playerWon} userId={userId} payAmount={10} stakeAmount={stake}/>
     ) : (
       <div className="w-full p-6">
         {/* Header */}
