@@ -72,19 +72,25 @@ return (
     {(playerWon || computerWon) ? (
       <GameOverMenu didPlayerWin={playerWon} userId={userId} payAmount={10} stakeAmount={stake}/>
     ) : (
-      <div className="w-full p-6">
+      <div className="w-full sm:p-6 p-0">
+
+    {/* Display latest drawn */}
+      {latestDrawn && (
+      <div className="flex justify-center mb-4">
+        <div className="w-20 h-20 my-4 flex items-center justify-center rounded-full bg-[#0CFF14] text-[#014A15] !text-3xl font-extrabold shadow-lg animate-bounce">
+          {latestDrawn}
+        </div>
+      </div>
+    )}
+
         {/* Header */}
         <div className="text-center mb-4">
-          <p className="text-sm text-gray-600">
-            Difficulty: <span className="capitalize">{difficulty}</span> | Speed: {gameSpeed}
-          </p>
-
           {/* Drawn history */}
-          <ul className="overflow-x-auto overflow-y-hidden max-w-6xl mx-auto flex flex-nowrap gap-2 mb-8 px-4">
+          <ul className="overflow-x-auto overflow-y-hidden max-w-6xl mx-auto flex flex-nowrap gap-2 mb-8">
             {drawnHistory.map((entry, index) => (
               <li
                 key={index}
-                className="w-12 h-12 flex items-center justify-center rounded-full bg-amber-400 text-white font-bold shadow shrink-0"
+                className="w-12 h-12 flex items-center justify-center rounded-full bg-[#FFCC00] text-[#643F0C] font-bold shadow shrink-0"
               >
                 {entry}
               </li>
@@ -96,20 +102,13 @@ return (
         <div className="flex justify-center my-6">
           <button
             onClick={drawNewNumber}
-            className="!bg-pink-500 !hover:bg-pink-600 text-white font-bold px-6 py-2 rounded-full shadow transition"
+            className="!bg-[#00E31A]  text-[#005B26] font-bold px-6 py-2 rounded-full border-1 border-[#005B26]"
           >
-            🎲 Draw Number
+            DRAW NUMBER
           </button>
         </div>
 
-        {/* Display latest drawn */}
-        {latestDrawn && (
-          <div className="flex justify-center mb-4">
-            <div className="w-20 h-20 my-4 flex items-center justify-center rounded-full bg-green-500 text-white !text-3xl font-extrabold shadow-lg animate-bounce">
-              {latestDrawn}
-            </div>
-          </div>
-        )}
+
 
         {/* Boards layout */}
         <div className="w-full max-w-7xl mx-auto px-4">

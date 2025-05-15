@@ -29,7 +29,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#87F6FF] flex items-center justify-center p-4" style={{
+    <div className="min-h-screen bg-[#87F6FF] flex items-center justify-center p-0 sm:p-4" style={{
         backgroundImage: `url(${background})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',

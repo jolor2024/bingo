@@ -28,7 +28,7 @@ function BingoBoard({ user, drawnHistory, computerBoard, gameSpeed, onBingo, }: 
 
   // Check if a cell is marked
   function isMarked(cellValue: string): boolean {
-    return drawnHistory.includes(cellValue);
+    return drawnHistory.includes(cellValue) || cellValue == "FREE";
   }
 
   function hasRowBingo(board: string[][], drawn: string[]): boolean {
@@ -77,22 +77,22 @@ function BingoBoard({ user, drawnHistory, computerBoard, gameSpeed, onBingo, }: 
 }, [hasBingo, onBingo, user]);
 
   return (
-    <div className="w-full flex flex-col items-center bg-white p-4 rounded-3xl shadow-2xl border border-pink-300">
+    <div className="w-full flex flex-col items-center bg-[#581BAE] p-4 rounded-3xl shadow-2xl border">
 
       {/* Board title */}
-      <h2 className="!text-2xl font-bold text-pink-600 mb-4"> Player: {user}</h2>
+      <h2 className="!text-2xl font-bold text-[#FF1B67] mb-4"> Player: {user}</h2>
 
         {/* Column headers */}
-  <div className="grid grid-cols-5 gap-2 max-w-md mx-auto mb-2">
-    {['B', 'I', 'N', 'G', 'O'].map((letter) => (
-      <div
-        key={letter}
-        className="w-14 h-14 flex items-center justify-center text-xl font-extrabold text-white bg-pink-500 rounded-2xl border border-pink-300"
-      >
-        {letter}
+      <div className="grid grid-cols-5 gap-2 max-w-md mx-auto mb-2">
+        {['B', 'I', 'N', 'G', 'O'].map((letter) => (
+          <div
+            key={letter}
+            className="w-11 h-11 sm:w-14 sm:h-14 flex items-center justify-center text-xl font-extrabold text-[#631313] bg-[#FF1B67] rounded-2xl"
+          >
+            {letter}
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
 
       <div className="grid grid-cols-5 gap-2 max-w-md mx-auto mb-6">
         {card.map((row, rowIndex) =>
@@ -101,10 +101,10 @@ function BingoBoard({ user, drawnHistory, computerBoard, gameSpeed, onBingo, }: 
             return (
               <div
                 key={`${rowIndex}-${colIndex}`}
-                className={`w-14 h-14 flex items-center justify-center text-xl font-bold rounded-2xl border border-pink-300 transition-all duration-200 ${
+                className={`w-11 h-11 sm:w-14 sm:h-14 flex items-center justify-center text-xl font-bold rounded-2xl transition-all duration-200 ${
                   marked
-                    ? 'bg-green-500 text-white scale-105'
-                    : 'bg-white text-gray-800 hover:bg-yellow-100'
+                    ? 'bg-[#FFCC00] text-[#643F0C] scale-105'
+                    : 'bg-[#9E32BE] text-[#441465] hover:bg-[#FFCC00]'
                 }`}
               >
                 {cell}

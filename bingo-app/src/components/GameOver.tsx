@@ -17,11 +17,13 @@ type TransactionRequest = {
 };
 
 
+/*
 type TransactionResponse = {
   status: string;
   message?: string;
   data?: any;
 };
+*/
 
 export default function GameOverMenu({ didPlayerWin, userId, payAmount, stakeAmount }: Props) {
 
