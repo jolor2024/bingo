@@ -65,17 +65,24 @@ export default function GameOverMenu({ didPlayerWin, userId, payAmount, stakeAmo
   }, [didPlayerWin, userId, payAmount, stakeAmount]);
 
 
-  return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center bg-opacity-80 z-50 text-pink-600">
-      <h1 className="text-4xl font-bold mb-4">
+return (
+  <div className="fixed inset-0 flex items-center justify-center bg-opacity-80 z-50 text-black">
+    <div className="bg-white p-8 rounded-lg shadow-2xl text-center max-w-sm w-full">
+      <h1 className="text-4xl text-black font-bold mb-4">
         {didPlayerWin ? "🎉 You won!" : "😞 You lost!"}
       </h1>
+      <p className="text-lg font-medium mb-2 text-center pt-2">Your stake: ${stakeAmount}</p>
+      {didPlayerWin && (
+        <p className="text-lg font-medium mb-4 text-center pt-2">Reward: ${stakeAmount * 2}</p>
+      )}
       <a
         href="/"
-        className="bg-pink-600 hover:bg-pink-700 !text-white font-bold px-6 py-3 rounded-full shadow-lg transition"
+        className="bg-[#00E31A] hover:bg-[#005B26] !text-[#005B26] !hover:text-[#00E31A] font-bold px-6 py-3 rounded-lg shadow-lg transition"
       >
-        🔄 Play Again
+        Play Again
       </a>
     </div>
-  );
+  </div>
+);
+
 }
