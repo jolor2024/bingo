@@ -7,62 +7,57 @@ type Props = {
   stakeAmount: number;
 };
 
-type TransactionRequest = {
-  transaction: "stake" | "payout";
-  user_id: string;
-  group_id: string;
-  stake_amount: number;
-  payout_amount: number;
-  stamp: string;
-};
-
-
-/*
-type TransactionResponse = {
-  status: string;
-  message?: string;
-  data?: any;
-};
-*/
-
-export default function GameOverMenu({ didPlayerWin, userId, payAmount, stakeAmount }: Props) {
-
+export default function GameOverMenu({ didPlayerWin, payAmount, stakeAmount }: Props) {
   useEffect(() => {
-    async function payout() {
+    async function sendTransaction() {
       const url = "https://yrgobanken.vip/api/transactions";
 
-      const transactionType = didPlayerWin ? "payout" : "stake"; // Determine the transaction type
-      const amount = didPlayerWin ? payAmount : stakeAmount; // Determine the amount based on win/lose
+      //Hämta här användarens jwt från local storage? 
+      const jwtToken =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ5cmdvYmFua2VuLnZpcCIsInN1YiI6MiwiZW1haWwiOiJqb25sb3IwNTI1QHNrb2xhLmdvdGVib3JnLnNlIiwiaWF0IjoxNzQ3NjQ2MjE0LCJleHAiOjE3NDc2NjA2MTR9.ng3J83bwswUwo_JKJmC0EqbZ2esK5ANfnBLD_X1AG4g";
 
-      const payload: TransactionRequest = {
-        transaction: transactionType, // 'payout' or 'stake'
-        user_id: userId,
-        group_id: "1", // 'group_id' is used as 'seller' 
-        stake_amount: transactionType === "stake" ? amount : 0, // If it's stake, use stake_amount
-        payout_amount: transactionType === "payout" ? amount : 0, // If it's payout, use payout_amount
-        stamp: "platinum snake",
-      };
+      const apiKey = "8881504ea9b61f7a21da540ba5e4c0108f8a7624f2c30e388250c7f2f6677ad5";
+      
+     const payload: {
+      amusement_id: string;
+      stamp_id: string;
+      payout_amount?: number;
+      stake_amount?: number;
+    } = {
+      amusement_id: "2",
+      stamp_id: "12",
+    };
+
+    if (didPlayerWin) {
+      payload.payout_amount = payAmount;
+    } else {
+      payload.stake_amount = stakeAmount;
+    }
 
       try {
         const res = await fetch(url, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${jwtToken}`,
+            "x-api-key": apiKey,
+          },
           body: JSON.stringify(payload),
         });
 
         if (res.ok) {
-          console.log(`${transactionType.charAt(0).toUpperCase() + transactionType.slice(1)} successful!`);
+          console.log(`${didPlayerWin ? "Payout" : "Stake"} successful!`);
         } else {
-          console.error(`${transactionType.charAt(0).toUpperCase() + transactionType.slice(1)} failed: ${res.status}`);
+          const error = await res.json();
+          console.error(`${didPlayerWin ? "Payout" : "Stake"} failed:`, error);
         }
       } catch (err) {
         console.error("Transaction Fetch error:", err);
       }
     }
 
-    // Call the payout function only if player win or lose
-    payout();
-  }, [didPlayerWin, userId, payAmount, stakeAmount]);
+    sendTransaction();
+  }, [didPlayerWin, payAmount, stakeAmount]);
 
 
 return (
@@ -73,7 +68,7 @@ return (
       </h1>
       <p className="text-lg font-medium mb-2 text-center pt-2">Your stake: ${stakeAmount}</p>
       {didPlayerWin && (
-        <p className="text-lg font-medium mb-4 text-center pt-2">Reward: ${stakeAmount * 2}</p>
+        <p className="text-lg font-medium mb-4 text-center pt-2">Reward: ${payAmount}</p>
       )}
       <a
         href="/"

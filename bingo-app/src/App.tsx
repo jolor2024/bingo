@@ -47,7 +47,7 @@ function App() {
           <form onSubmit={startGame} className="space-y-6">
             <div>
               <label htmlFor="userId" className="block font-medium mb-1 ">
-                User ID
+                Enter name
               </label>
               <input
                 id="userId"
