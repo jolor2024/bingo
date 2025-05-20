@@ -36,6 +36,32 @@ export default function GameOverMenu({ didPlayerWin, payAmount, stakeAmount }: P
     };
   }, []);
 
+useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      const allowedOrigins = ["http://localhost:3000", "http://127.0.0.1:3000"];
+
+      if (!allowedOrigins.includes(event.origin)) {
+        console.warn("Blocked JWT from unauthorized origin:", event.origin);
+        return;
+      }
+
+      if (event.data?.type === "JWT_TOKEN") {
+        setJwtToken(event.data.token);
+        console.log("Received JWT from parent in GameOverMenu");
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    if (window.parent !== window) {
+      window.parent.postMessage({ type: "GAME_READY" }, "*");
+    }
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
+
   useEffect(() => {
     if (!jwtToken) return;
 
@@ -45,15 +71,15 @@ export default function GameOverMenu({ didPlayerWin, payAmount, stakeAmount }: P
 
       const payload: {
         amusement_id: string;
-        stamp_id: string;
+        stamp_id?: string;
         payout_amount?: number;
         stake_amount?: number;
       } = {
         amusement_id: "2",
-        stamp_id: "12",
       };
 
       if (didPlayerWin) {
+        payload.stamp_id = "12";
         payload.payout_amount = payAmount;
       } else {
         payload.stake_amount = stakeAmount;
