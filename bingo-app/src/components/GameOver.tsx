@@ -75,11 +75,11 @@ useEffect(() => {
         payout_amount?: number;
         stake_amount?: number;
       } = {
-        amusement_id: "2",
+        amusement_id: "6",
       };
 
       if (didPlayerWin) {
-        payload.stamp_id = "12";
+        payload.stamp_id = "14";
         payload.payout_amount = payAmount;
       } else {
         payload.stake_amount = stakeAmount;
