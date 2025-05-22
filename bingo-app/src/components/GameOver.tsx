@@ -38,7 +38,7 @@ export default function GameOverMenu({ didPlayerWin, payAmount, stakeAmount }: P
 
 useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      const allowedOrigins = ["http://localhost:3000", "http://127.0.0.1:3000"];
+      const allowedOrigins = ["https://tivoli.yrgobanken.vip", "http://yrgobanken.vip/"];
 
       if (!allowedOrigins.includes(event.origin)) {
         console.warn("Blocked JWT from unauthorized origin:", event.origin);
