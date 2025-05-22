@@ -36,7 +36,7 @@ export default function GameOverMenu({ didPlayerWin, payAmount, stakeAmount }: P
   }, []);
 
   useEffect(() => {
-    if (!jwtToken) return;
+    //if (!jwtToken) return;
 
     const sendTransaction = async () => {
       const url = "https://yrgobanken.vip/api/transactions";
@@ -58,7 +58,22 @@ export default function GameOverMenu({ didPlayerWin, payAmount, stakeAmount }: P
         payload.stake_amount = stakeAmount;
       }
 
+
+      
+
+
       try {
+        console.log("Sending transaction request:");
+        console.log("URL:", url);
+        console.log("Method: POST");
+        console.log("Headers:", {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${jwtToken}`,
+          "x-api-key": apiKey,
+        });
+        console.log("Body:", payload);
+
+
         const res = await fetch(url, {
           method: "POST",
           headers: {
@@ -68,7 +83,7 @@ export default function GameOverMenu({ didPlayerWin, payAmount, stakeAmount }: P
           },
           body: JSON.stringify(payload),
         });
-
+        
         if (res.ok) {
           console.log(`${didPlayerWin ? "Payout" : "Stake"} successful!`);
         } else {
