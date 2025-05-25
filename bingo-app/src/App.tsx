@@ -61,10 +61,10 @@ function App() {
               />
             </div>
 
-            <div>
-              <label className="block font-medium mb-1">
-                Choose Difficulty
-              </label>
+            <fieldset>
+              <legend className="block font-medium mb-1">
+                Select difficulty
+              </legend>
               <div className="flex justify-between gap-4">
                 {difficultyLevels.map((level) => (
                   <label key={level} className="flex-1">
@@ -83,10 +83,12 @@ function App() {
                   </label>
                 ))}
               </div>
-            </div>
+            </fieldset>
 
-            <div>
-              <label className="block font-mediu mb-1">Game Speed</label>
+            <fieldset>
+              <legend className="block font-mediu mb-1">
+                Select game speed
+              </legend>
               <div className="flex justify-between gap-4">
                 {gameSpeedOptions.map((option) => (
                   <label key={option.id} className="flex-1">
@@ -105,16 +107,17 @@ function App() {
                   </label>
                 ))}
               </div>
-            </div>
+            </fieldset>
 
             <div>
               <label htmlFor="userId" className="block font-medium mb-1">
-                Enter Stake
+                Enter your stake in euros
               </label>
               <input
                 id="stake"
                 name="stake"
                 type="number"
+                title="Enter a numeric value of how many Euros you wish to bet"
                 value={stake}
                 onChange={(e) => setStake(Number(e.target.value))}
                 required
