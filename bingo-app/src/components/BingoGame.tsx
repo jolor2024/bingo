@@ -96,14 +96,17 @@ function BingoGame({ userId, difficulty, gameSpeed, stake }: BingoGameProps) {
             {/* Drawn history */}
             {drawnHistory.length > 0 && (
               <ul className="overflow-x-auto overflow-y-hidden max-w-6xl mx-auto flex flex-nowrap gap-2 p-3">
-                {drawnHistory.map((entry, index) => (
-                  <li
-                    key={index}
-                    className="w-12 h-12 flex items-center justify-center rounded-full bg-[#FFCC00] text-[#643F0C] font-bold shadow shrink-0"
-                  >
-                    {entry}
-                  </li>
-                ))}
+                {drawnHistory
+                  .slice()
+                  .reverse()
+                  .map((entry, index) => (
+                    <li
+                      key={index}
+                      className="w-12 h-12 flex items-center justify-center rounded-full bg-[#FFCC00] text-[#643F0C] font-bold shadow shrink-0"
+                    >
+                      {entry}
+                    </li>
+                  ))}
               </ul>
             )}
           </div>
