@@ -83,6 +83,7 @@ function App() {
                   </label>
                 ))}
               </div>
+              <p className="block font-light">Reward multipliers: x2, x3, x4</p>
             </fieldset>
 
             <fieldset>
