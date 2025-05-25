@@ -108,11 +108,11 @@ export default function GameOverMenu({
           {didPlayerWin ? "🎉 You won!" : "😞 You lost!"}
         </h1>
         <p className="text-lg font-medium mb-2 text-center pt-2">
-          Your stake: ${stakeAmount}
+          Your stake: €{stakeAmount}
         </p>
         {didPlayerWin && (
           <p className="text-lg font-medium text-center pt-2">
-            Reward: ${payAmount}
+            Reward: €{payAmount}
           </p>
         )}
         <div className="group bg-[#00E31A] hover:bg-[#005B26] font-bold px-6 py-3 rounded-lg shadow-lg transition min-w-[44px] min-h-[44px]">
