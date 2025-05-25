@@ -92,18 +92,20 @@ function BingoGame({ userId, difficulty, gameSpeed, stake }: BingoGameProps) {
           )}
 
           {/* Header */}
-          <div className="text-center mb-4">
+          <div className="!bg-[#581BAE] text-center rounded-lg shadow-lg mb-8">
             {/* Drawn history */}
-            <ul className="overflow-x-auto overflow-y-hidden max-w-6xl mx-auto flex flex-nowrap gap-2 mb-8">
-              {drawnHistory.map((entry, index) => (
-                <li
-                  key={index}
-                  className="w-12 h-12 flex items-center justify-center rounded-full bg-[#FFCC00] text-[#643F0C] font-bold shadow shrink-0"
-                >
-                  {entry}
-                </li>
-              ))}
-            </ul>
+            {drawnHistory.length > 0 && (
+              <ul className="overflow-x-auto overflow-y-hidden max-w-6xl mx-auto flex flex-nowrap gap-2 p-3">
+                {drawnHistory.map((entry, index) => (
+                  <li
+                    key={index}
+                    className="w-12 h-12 flex items-center justify-center rounded-full bg-[#FFCC00] text-[#643F0C] font-bold shadow shrink-0"
+                  >
+                    {entry}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Draw number */}
