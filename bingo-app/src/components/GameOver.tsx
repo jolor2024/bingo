@@ -6,12 +6,19 @@ type Props = {
   stakeAmount: number;
 };
 
-export default function GameOverMenu({ didPlayerWin, payAmount, stakeAmount }: Props) {
+export default function GameOverMenu({
+  didPlayerWin,
+  payAmount,
+  stakeAmount,
+}: Props) {
   const [jwtToken, setJwtToken] = useState<string | null>(null);
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      const allowedOrigins = ["https://tivoli.yrgobanken.vip", "http://yrgobanken.vip/"];
+      const allowedOrigins = [
+        "https://tivoli.yrgobanken.vip",
+        "http://yrgobanken.vip/",
+      ];
 
       if (!allowedOrigins.includes(event.origin)) {
         console.warn("Blocked JWT from unauthorized origin:", event.origin);
@@ -40,7 +47,8 @@ export default function GameOverMenu({ didPlayerWin, payAmount, stakeAmount }: P
 
     const sendTransaction = async () => {
       const url = "https://yrgobanken.vip/api/transactions";
-      const apiKey = "8881504ea9b61f7a21da540ba5e4c0108f8a7624f2c30e388250c7f2f6677ad5";
+      const apiKey =
+        "8881504ea9b61f7a21da540ba5e4c0108f8a7624f2c30e388250c7f2f6677ad5";
 
       const payload: {
         amusement_id: string;
@@ -58,32 +66,27 @@ export default function GameOverMenu({ didPlayerWin, payAmount, stakeAmount }: P
         payload.stake_amount = stakeAmount;
       }
 
-
-      
-
-
       try {
         console.log("Sending transaction request:");
         console.log("URL:", url);
         console.log("Method: POST");
         console.log("Headers:", {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${jwtToken}`,
           "x-api-key": apiKey,
         });
         console.log("Body:", payload);
-
 
         const res = await fetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${jwtToken}`,
+            Authorization: `Bearer ${jwtToken}`,
             "x-api-key": apiKey,
           },
           body: JSON.stringify(payload),
         });
-        
+
         if (res.ok) {
           console.log(`${didPlayerWin ? "Payout" : "Stake"} successful!`);
         } else {
@@ -100,20 +103,23 @@ export default function GameOverMenu({ didPlayerWin, payAmount, stakeAmount }: P
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-opacity-80 z-50 text-black">
-      <div className="bg-white p-8 rounded-lg shadow-2xl text-center max-w-sm w-full">
+      <div className="bg-white p-8 rounded-lg shadow-2xl text-center max-w-sm w-full space-y-8">
         <h1 className="text-4xl text-black font-bold mb-4">
           {didPlayerWin ? "🎉 You won!" : "😞 You lost!"}
         </h1>
-        <p className="text-lg font-medium mb-2 text-center pt-2">Your stake: ${stakeAmount}</p>
+        <p className="text-lg font-medium mb-2 text-center pt-2">
+          Your stake: ${stakeAmount}
+        </p>
         {didPlayerWin && (
-          <p className="text-lg font-medium mb-4 text-center pt-2">Reward: ${payAmount}</p>
+          <p className="text-lg font-medium text-center pt-2">
+            Reward: ${payAmount}
+          </p>
         )}
-        <a
-          href="/"
-          className="bg-[#00E31A] hover:bg-[#005B26] !text-[#005B26] !hover:text-[#00E31A] font-bold px-6 py-3 rounded-lg shadow-lg transition"
-        >
-          Play Again
-        </a>
+        <div className="group bg-[#00E31A] hover:bg-[#005B26] font-bold px-6 py-3 rounded-lg shadow-lg transition min-w-[44px] min-h-[44px]">
+          <a href="/" className="!text-[#005B26] group-hover:!text-[#00E31A]">
+            Play Again
+          </a>
+        </div>
       </div>
     </div>
   );
