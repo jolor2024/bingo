@@ -27,6 +27,12 @@ const BINGO_NUMBERS: BingoNumbers = {
   O: Array.from({ length: 15 }, (_, i) => i + 61),
 };
 
+const rewardMultiplier: Record<Difficulty, number> = {
+  easy: 2,
+  medium: 3,
+  hard: 4,
+};
+
 function BingoGame({ userId, difficulty, gameSpeed, stake }: BingoGameProps) {
   const [latestDrawn, setLatestDrawn] = useState<string>("");
   const [drawnHistory, setDrawnHistory] = useState<string[]>([]);
@@ -77,7 +83,7 @@ function BingoGame({ userId, difficulty, gameSpeed, stake }: BingoGameProps) {
       {playerWon || computerWon ? (
         <GameOverMenu
           didPlayerWin={playerWon}
-          payAmount={10}
+          payAmount={stake * rewardMultiplier[difficulty]}
           stakeAmount={stake}
         />
       ) : (
